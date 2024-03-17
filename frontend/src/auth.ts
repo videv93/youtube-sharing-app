@@ -6,6 +6,8 @@ interface AuthProvider {
   signout(): Promise<void>;
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 /**
  * This represents some generic auth provider API, like Firebase.
  */
@@ -14,7 +16,7 @@ export const fakeAuthProvider: AuthProvider = {
   username: localStorage.getItem("username") || null,
   accessToken: localStorage.getItem("accessToken") || null,
   async signin(username: string, password: string) {
-    const response = await fetch("http://localhost:3000/auth/signIn", {
+    const response = await fetch(apiUrl + "/auth/signIn", {
       method: "post",
       body: JSON.stringify({ username, password }),
       headers: {

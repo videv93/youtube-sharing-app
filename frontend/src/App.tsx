@@ -27,7 +27,6 @@ import {
   Container,
   Divider,
   Snackbar,
-  SnackbarOrigin,
   Stack,
   TextField,
   Typography,
@@ -36,6 +35,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
 import { ReadMoreText } from "./components/ui/ReadMoreText";
 import { useState, useEffect } from "react";
+
+const apiURL = import.meta.env.VITE_API_URL as string;
 
 const router = createBrowserRouter([
   {
@@ -98,7 +99,7 @@ function Layout() {
   };
 
   useEffect(() => {
-    const socket = io("http://localhost:3000");
+    const socket = io(apiURL);
     socket.on("connect", () => {
       console.log("Connected to server");
     });

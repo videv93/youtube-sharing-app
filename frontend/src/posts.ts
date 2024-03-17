@@ -1,7 +1,9 @@
 import { fakeAuthProvider } from "./auth";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export async function getPosts() {
-  const response = await fetch("http://localhost:3000/posts", {
+  const response = await fetch(apiUrl + "/posts", {
     method: "get",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +18,7 @@ export async function getPosts() {
 
 export async function createPost(url: string) {
   const accessToken = fakeAuthProvider.accessToken;
-  const response = await fetch("http://localhost:3000/posts", {
+  const response = await fetch(apiUrl + "/posts", {
     method: "post",
     body: JSON.stringify({ url }),
     headers: {
@@ -32,7 +34,7 @@ export async function createPost(url: string) {
 
 export async function upVotePost(id: number) {
   const accessToken = fakeAuthProvider.accessToken;
-  const response = await fetch(`http://localhost:3000/posts/${id}/upvote`, {
+  const response = await fetch(`${apiUrl}/posts/${id}/upvote`, {
     method: "post",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -46,7 +48,7 @@ export async function upVotePost(id: number) {
 
 export async function downVotePost(id: number) {
   const accessToken = fakeAuthProvider.accessToken;
-  const response = await fetch(`http://localhost:3000/posts/${id}/downvote`, {
+  const response = await fetch(`${apiUrl}/posts/${id}/downvote`, {
     method: "post",
     headers: {
       Authorization: `Bearer ${accessToken}`,
