@@ -35,6 +35,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
 import { ReadMoreText } from "./components/ui/ReadMoreText";
 import { useState, useEffect } from "react";
+import { Post } from "./types/post";
 
 const apiURL = import.meta.env.VITE_API_URL as string;
 
@@ -86,9 +87,9 @@ function Layout() {
   const navigate = useNavigate();
 
   const [snackBarOpen, setSnackBarOpen] = useState(false);
-  const [recentPost, setRecentPost] = useState(null);
+  const [recentPost, setRecentPost] = useState<Post | null>(null);
 
-  const handleClick = (post: any) => {
+  const handleClick = (post: Post) => {
     setSnackBarOpen((snackBarOpen) => !snackBarOpen);
     setRecentPost(post);
   };
@@ -257,7 +258,7 @@ function Login() {
   );
 }
 function PublicPage() {
-  const { posts } = useRouteLoaderData("root") as { posts: any[] };
+  const { posts } = useRouteLoaderData("root") as { posts: Post[] };
   const revalidator = useRevalidator();
 
   const opts = {
@@ -274,7 +275,7 @@ function PublicPage() {
     event.target.pauseVideo();
   };
 
-  const handleUpVoteClick = async (post: any) => {
+  const handleUpVoteClick = async (post: Post) => {
     try {
       await upVotePost(post._id);
       revalidator.revalidate();
@@ -283,7 +284,7 @@ function PublicPage() {
     }
   };
 
-  const handleDownVoteClick = async (post: any) => {
+  const handleDownVoteClick = async (post: Post) => {
     try {
       await downVotePost(post._id);
       revalidator.revalidate();
@@ -296,7 +297,7 @@ function PublicPage() {
     <div>
       <ul>
         {posts.map((post) => (
-          <Stack key={post.id} direction="row" spacing={2} p={2} key={post._id}>
+          <Stack key={post._id} direction="row" spacing={2} p={2}>
             <Box>
               <Youtube
                 videoId={post.videoId}

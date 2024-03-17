@@ -1,6 +1,7 @@
 import { fakeAuthProvider } from "./auth";
 
 const apiUrl = import.meta.env.VITE_API_URL;
+console.log(import.meta.env);
 
 export async function getPosts() {
   const response = await fetch(apiUrl + "/posts", {
@@ -32,7 +33,7 @@ export async function createPost(url: string) {
   return response.json();
 }
 
-export async function upVotePost(id: number) {
+export async function upVotePost(id: string) {
   const accessToken = fakeAuthProvider.accessToken;
   const response = await fetch(`${apiUrl}/posts/${id}/upvote`, {
     method: "post",
@@ -46,7 +47,7 @@ export async function upVotePost(id: number) {
   return response.json();
 }
 
-export async function downVotePost(id: number) {
+export async function downVotePost(id: string) {
   const accessToken = fakeAuthProvider.accessToken;
   const response = await fetch(`${apiUrl}/posts/${id}/downvote`, {
     method: "post",

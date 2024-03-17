@@ -28,9 +28,9 @@ export function loader({ request }: LoaderFunctionArgs) {
   return null;
 }
 
-export async function action({ request }) {
+export async function action({ request }: LoaderFunctionArgs) {
   const formData = await request.formData();
-  const url = formData.get("url");
+  const url = formData.get("url") as string;
   if (!url) {
     return {
       status: 400,
