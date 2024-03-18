@@ -16,8 +16,11 @@
 
 ```~~
 YOUTUBE_API_KEY=your_youtube_api_key
+MONGO_URI=your_mongo_uri
 REDIS_HOST=your_redis_host
 REDIS_PORT=your_redis_port
+REDIS_PASSWORD=your_redis_password
+REDIS_TTL=your_redis_ttl
 ~~
 
 ```
