@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app:
+    container_name: nestjs-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongodb
+      - redis
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - '27017:27017'
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - '6379:6379'
+
+volumes:
+  mongodb-data:
