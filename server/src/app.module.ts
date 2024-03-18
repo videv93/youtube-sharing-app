@@ -18,6 +18,7 @@ import { RedisClientOptions } from 'redis';
     UsersModule,
     CacheModule.registerAsync<RedisClientOptions>({
       imports: [ConfigModule],
+      isGlobal: true,
       useFactory: async (configService: ConfigService) => ({
         store: redisStore,
         host: configService.get('REDIS_HOST'),
