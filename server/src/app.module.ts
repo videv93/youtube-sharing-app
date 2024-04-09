@@ -21,7 +21,9 @@ import { RedisClientOptions } from 'redis';
       isGlobal: true,
       useFactory: async (configService: ConfigService) => ({
         store: redisStore,
-        url: configService.get('REDIS_URI'),
+        host: configService.get('REDIS_HOST'),
+        port: configService.get('REDIS_PORT'),
+        auth_pass: configService.get('REDIS_PASSWORD'),
       }),
       inject: [ConfigService],
     }),
