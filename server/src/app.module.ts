@@ -8,8 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { LoggerModule } from 'nestjs-pino';
 import { EventsModule } from './events/events.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CacheModule } from '@nestjs/cache-manager';
-import * as redisStore from 'cache-manager-redis-store';
+import { CacheModule, CacheStore } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-store';
 import { RedisClientOptions } from 'redis';
 
 @Module({
@@ -19,12 +19,19 @@ import { RedisClientOptions } from 'redis';
     CacheModule.registerAsync<RedisClientOptions>({
       imports: [ConfigModule],
       isGlobal: true,
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get('REDIS_HOST'),
-        port: configService.get('REDIS_PORT'),
-        auth_pass: configService.get('REDIS_PASSWORD'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const store = (await redisStore({
+          socket: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
+          },
+          password: configService.get('REDIS_PASSWORD'),
+        })) as unknown as CacheStore;
+        return {
+          store,
+          ttl: 60 * 60 * 24 * 7,
+        };
+      },
       inject: [ConfigService],
     }),
     PostsModule,
