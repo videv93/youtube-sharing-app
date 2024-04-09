@@ -9,7 +9,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { EventsModule } from './events/events.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
-import { redisStore } from 'cache-manager-redis-store';
+import * as redisStore from 'cache-manager-redis-store';
 import { RedisClientOptions } from 'redis';
 
 @Module({
