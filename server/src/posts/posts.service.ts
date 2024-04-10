@@ -17,13 +17,15 @@ export class PostsService {
   ) {}
 
   async findAll(user?: UserCache) {
-    const posts = await this.postModel.find({}, null, {
-      populate: [{ path: 'user', select: 'username' }],
-    });
+    const posts = await this.postModel
+      .find({}, null, {
+        populate: [{ path: 'user', select: 'username' }],
+      })
+      .lean();
     if (user) {
       for (const post of posts) {
         const isMember = await this.redisService.isMember(
-          `post:${post.id}:upvotes`,
+          `post:${post._id}:upvotes`,
           user.sub,
         );
         post.voted = isMember;
@@ -41,7 +43,7 @@ export class PostsService {
     await newPost.populate('user');
     this.eventsGateway.server.emit('new_post', JSON.stringify(newPost));
 
-    return newPost;
+    return newPost.toObject();
   }
 
   async upvote(user: UserCache, postId: string) {
@@ -60,7 +62,7 @@ export class PostsService {
     post.upvotes = upvotes;
 
     await post.save();
-    return post;
+    return post.toObject();
   }
 
   async downvote(user: UserCache, postId: string) {
@@ -79,7 +81,7 @@ export class PostsService {
     post.downvotes = downvotes;
 
     await post.save();
-    return post;
+    return post.toObject();
   }
 
   async createFromUrl(user: UserCache, url: string) {
@@ -93,6 +95,6 @@ export class PostsService {
     const newPost = await this.postModel.create(newPayload);
     await newPost.populate('user');
     this.eventsGateway.server.emit('newPost', JSON.stringify(newPost));
-    return newPost;
+    return newPost.toObject();
   }
 }
