@@ -14,7 +14,7 @@ export class Post {
   title: string;
 
   @Prop()
-  description: string;
+  description?: string;
 
   @Prop({
     required: true,
