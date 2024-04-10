@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { UsersService } from './users.service';
-import { User } from './user.model';
+import { User } from './user.schema';
 
 describe('UsersService', () => {
   let usersService: UsersService;
@@ -29,9 +29,16 @@ describe('UsersService', () => {
   describe('create', () => {
     it('should create a new user', async () => {
       const payload = { username: 'testuser', password: 'testpassword' };
-      const createdUser = { _id: '1', ...payload };
+      const createdUser = { _id: new mongoose.Types.ObjectId(), ...payload };
+      const createdUserDocument = {
+        toObject: jest.fn().mockReturnValue(createdUser),
+        ...createdUser,
+      };
 
-      jest.spyOn(userModel, 'create').mockResolvedValueOnce(createdUser);
+      jest
+        .spyOn(userModel, 'create')
+        // @ts-expect-error('toObject' does not exist on type 'Post')
+        .mockResolvedValueOnce(createdUserDocument);
 
       const result = await usersService.create(payload);
 
