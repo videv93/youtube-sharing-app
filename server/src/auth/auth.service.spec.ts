@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import { UnauthorizedException } from '@nestjs/common';
+import mongoose from 'mongoose';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -33,11 +35,6 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 });
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
-import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -77,7 +74,11 @@ describe('AuthService', () => {
     it('should return access token if user exists and password is correct', async () => {
       const username = 'testuser';
       const password = 'testpassword';
-      const user = { username, password: 'hashedpassword', _id: '123' };
+      const user = {
+        username,
+        password: 'hashedpassword',
+        _id: new mongoose.Types.ObjectId(),
+      };
       const accessToken = 'testaccesstoken';
 
       jest.spyOn(usersService, 'findOne').mockResolvedValue(user);
@@ -97,7 +98,7 @@ describe('AuthService', () => {
       const signUpResult = {
         username,
         password: 'hashedpassword',
-        _id: '123',
+        _id: new mongoose.Types.ObjectId(),
         access_token: 'testaccesstoken',
       };
 
@@ -114,7 +115,11 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException if user exists but password is incorrect', async () => {
       const username = 'testuser';
       const password = 'testpassword';
-      const user = { username, password: 'hashedpassword', _id: '123' };
+      const user = {
+        username,
+        password: 'hashedpassword',
+        _id: new mongoose.Types.ObjectId(),
+      };
 
       jest.spyOn(usersService, 'findOne').mockResolvedValue(user);
 
@@ -128,7 +133,11 @@ describe('AuthService', () => {
     it('should create a new user and return access token', async () => {
       const username = 'testuser';
       const password = 'testpassword';
-      const userCreated = { username, password: 'hashedpassword', _id: '123' };
+      const userCreated = {
+        username,
+        password: 'hashedpassword',
+        _id: new mongoose.Types.ObjectId(),
+      };
       const accessToken = 'testaccesstoken';
 
       jest.spyOn(usersService, 'create').mockResolvedValue(userCreated);
