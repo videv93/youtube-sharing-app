@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { PostsService } from './posts.service';
-import { YoutubeService } from './youtube.service';
-import { EventsGateway } from './events.gateway';
-import { RedisService } from './redis.service';
-import { Post } from './post.model';
+import { YoutubeService } from 'src/common/youtube.service';
+import { EventsGateway } from 'src/events/events.gateway';
+import { RedisService } from 'src/common/redis.service';
+import { Post } from './post.schema';
+import { faker } from '@faker-js/faker';
 
 describe('PostsService', () => {
   let service: PostsService;
@@ -12,6 +13,34 @@ describe('PostsService', () => {
   let eventsGateway: EventsGateway;
   let redisService: RedisService;
   let postModel: Model<Post>;
+
+  const fakeUserCache = {
+    username: 'username',
+    sub: 'sub',
+    iat: faker.date.anytime().getTime() / 1000,
+    exp: 3600,
+  };
+
+  const fakeUser = {
+    _id: new mongoose.Types.ObjectId(),
+    username: 'test',
+    password: 'password',
+  };
+
+  const fakePost = {
+    _id: new mongoose.Types.ObjectId(),
+    title: 'Post 1',
+    videoId: 'abc',
+    user: fakeUser,
+    upvotes: 0,
+    downvotes: 0,
+    voted: false,
+  };
+
+  const fakePostDocument = {
+    ...fakePost,
+    toObject: jest.fn().mockReturnValue(fakePost),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -33,8 +62,8 @@ describe('PostsService', () => {
 
   describe('findAll', () => {
     it('should return all posts', async () => {
-      const user = { sub: 'user123' };
-      const posts = [{ id: 'post1' }, { id: 'post2' }];
+      const user = fakeUserCache;
+      const posts = [fakePost];
       const isMemberMock = jest
         .spyOn(redisService, 'isMember')
         .mockResolvedValue(true);
@@ -65,14 +94,16 @@ describe('PostsService', () => {
 
   describe('create', () => {
     it('should create a new post', async () => {
-      const user = { sub: 'user123' };
+      const user = fakeUserCache;
       const payload = { title: 'Test Post', description: 'Test Description' };
-      const newPost = { id: 'post1', ...payload, user: user.sub };
+      const newPost = fakePostDocument;
       const createMock = jest
         .spyOn(postModel, 'create')
+        // @ts-expect-error('toObject' does not exist on type 'Post')
         .mockResolvedValue(newPost);
       const populateMock = jest
         .spyOn(postModel, 'populate')
+        // @ts-expect-error('toObject' does not exist on type 'Post')
         .mockResolvedValue(newPost);
       const emitMock = jest.spyOn(eventsGateway.server, 'emit');
 
@@ -90,9 +121,9 @@ describe('PostsService', () => {
 
   describe('upvote', () => {
     it('should upvote a post', async () => {
-      const user = { sub: 'user123' };
+      const user = fakeUserCache;
       const postId = 'post1';
-      const post = { id: postId, upvotes: 0 };
+      const post = fakePostDocument;
       const isMemberMock = jest
         .spyOn(redisService, 'isMember')
         .mockResolvedValue(false);
@@ -103,6 +134,7 @@ describe('PostsService', () => {
       const findByIdMock = jest
         .spyOn(postModel, 'findById')
         .mockResolvedValue(post);
+      // @ts-expect-error('toObject' does not exist on type 'Post')
       const saveMock = jest.spyOn(post, 'save').mockResolvedValue(post);
 
       const result = await service.upvote(user, postId);
@@ -116,7 +148,7 @@ describe('PostsService', () => {
     });
 
     it('should not upvote a post if user has already upvoted', async () => {
-      const user = { sub: 'user123' };
+      const user = fakeUserCache;
       const postId = 'post1';
       const post = { id: postId, upvotes: 0 };
       const isMemberMock = jest
@@ -136,9 +168,9 @@ describe('PostsService', () => {
 
   describe('downvote', () => {
     it('should downvote a post', async () => {
-      const user = { sub: 'user123' };
+      const user = fakeUserCache;
       const postId = 'post1';
-      const post = { id: postId, downvotes: 0 };
+      const post = fakePostDocument;
       const isMemberMock = jest
         .spyOn(redisService, 'isMember')
         .mockResolvedValue(false);
@@ -149,6 +181,7 @@ describe('PostsService', () => {
       const findByIdMock = jest
         .spyOn(postModel, 'findById')
         .mockResolvedValue(post);
+      // @ts-expect-error('toObject' does not exist on type 'Post')
       const saveMock = jest.spyOn(post, 'save').mockResolvedValue(post);
 
       const result = await service.downvote(user, postId);
@@ -168,7 +201,7 @@ describe('PostsService', () => {
     });
 
     it('should not downvote a post if user has already downvoted', async () => {
-      const user = { sub: 'user123' };
+      const user = fakeUserCache;
       const postId = 'post1';
       const post = { id: postId, downvotes: 0 };
       const isMemberMock = jest
@@ -191,28 +224,25 @@ describe('PostsService', () => {
 
   describe('createFromUrl', () => {
     it('should create a new post from a YouTube video URL', async () => {
-      const user = { sub: 'user123' };
+      const user = fakeUserCache;
       const url = 'https://www.youtube.com/watch?v=video123';
       const videoInfo = {
         title: 'Test Video',
         description: 'Test Description',
         videoId: 'video123',
       };
-      const newPost = {
-        id: 'post1',
-        title: videoInfo.title,
-        description: videoInfo.description,
-        videoId: videoInfo.videoId,
-        user: user.sub,
-      };
+      const newPost = fakePostDocument;
       const getVideoInfoMock = jest
         .spyOn(youtubeService, 'getVideoInfo')
         .mockResolvedValue(videoInfo);
       const createMock = jest
         .spyOn(postModel, 'create')
+        // @ts-expect-error('toObject' does not exist on type 'Post')
         .mockResolvedValue(newPost);
       const populateMock = jest
         .spyOn(postModel, 'populate')
+        // @ts-expect-error('toObject' does not exist on type 'Post')
+
         .mockResolvedValue(newPost);
       const emitMock = jest.spyOn(eventsGateway.server, 'emit');
 

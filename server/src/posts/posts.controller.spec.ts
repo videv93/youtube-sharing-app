@@ -1,10 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
+import mongoose from 'mongoose';
 
 describe('PostsController', () => {
   let controller: PostsController;
   let postsService: PostsService;
+
+  const fakeUser = {
+    _id: new mongoose.Types.ObjectId(),
+    username: 'test',
+    password: 'password',
+  };
+
+  const fakePost = {
+    _id: new mongoose.Types.ObjectId(),
+    title: 'Post 1',
+    videoId: 'abc',
+    user: fakeUser,
+    upvotes: 0,
+    downvotes: 0,
+    voted: false,
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,7 +36,7 @@ describe('PostsController', () => {
   describe('findAll', () => {
     it('should call postsService.findAll and return the result', async () => {
       const user = { username: 'test' };
-      const expectedResult = [{ id: 1, title: 'Post 1' }];
+      const expectedResult = [fakePost];
 
       jest.spyOn(postsService, 'findAll').mockResolvedValue(expectedResult);
 
@@ -34,7 +51,7 @@ describe('PostsController', () => {
     it('should call postsService.upvote and return the result', async () => {
       const user = { username: 'test' };
       const postId = 1;
-      const expectedResult = { id: 1, title: 'Post 1', likes: 1 };
+      const expectedResult = fakePost;
 
       jest.spyOn(postsService, 'upvote').mockResolvedValue(expectedResult);
 
@@ -49,7 +66,7 @@ describe('PostsController', () => {
     it('should call postsService.downvote and return the result', async () => {
       const user = { username: 'test' };
       const postId = 1;
-      const expectedResult = { id: 1, title: 'Post 1', likes: 0 };
+      const expectedResult = fakePost;
 
       jest.spyOn(postsService, 'downvote').mockResolvedValue(expectedResult);
 
@@ -64,11 +81,7 @@ describe('PostsController', () => {
     it('should call postsService.createFromUrl and return the result', async () => {
       const user = { username: 'test' };
       const createPostDto = { url: 'https://example.com' };
-      const expectedResult = {
-        id: 1,
-        title: 'New Post',
-        url: 'https://example.com',
-      };
+      const expectedResult = fakePost;
 
       jest
         .spyOn(postsService, 'createFromUrl')
