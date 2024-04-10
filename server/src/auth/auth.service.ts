@@ -16,7 +16,7 @@ export class AuthService {
     if (!user) {
       return this.signUp(username, pass);
     }
-    if (user || user.password !== pass) {
+    if (user.password !== pass) {
       throw new UnauthorizedException('Invalid credentials');
     }
     const payload = { username: user.username, sub: user._id };

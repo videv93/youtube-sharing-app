@@ -81,7 +81,7 @@ describe('AuthService', () => {
       };
       const accessToken = 'testaccesstoken';
 
-      jest.spyOn(usersService, 'findOne').mockResolvedValue(user);
+      jest.spyOn(usersService, 'findOne').mockResolvedValueOnce(user);
       jest.spyOn(jwtService, 'sign').mockReturnValue(accessToken);
 
       const result = await service.signIn(username, password);

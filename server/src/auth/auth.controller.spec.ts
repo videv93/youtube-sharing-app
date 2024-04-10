@@ -10,8 +10,16 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [AuthService],
-    }).compile();
+    })
+      .useMocker((token) => {
+        if (token == AuthService) {
+          return {
+            signIn: jest.fn(),
+            signUp: jest.fn(),
+          };
+        }
+      })
+      .compile();
 
     controller = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);

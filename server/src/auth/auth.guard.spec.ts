@@ -49,13 +49,13 @@ describe('AuthGuard', () => {
     const context = {
       getHandler: jest.fn(),
       getClass: jest.fn(),
-      switchToHttp: jest.fn(() => ({
-        getRequest: jest.fn(() => ({
+      switchToHttp: jest.fn().mockReturnValue({
+        getRequest: jest.fn().mockReturnValue({
           headers: {
             authorization: isPublic ? undefined : 'Bearer token',
           },
-        })),
-      })),
+        }),
+      }),
     };
     jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(isPublic);
     return context as unknown as ExecutionContext;
