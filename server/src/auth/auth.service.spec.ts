@@ -76,7 +76,7 @@ describe('AuthService', () => {
       const password = 'testpassword';
       const user = {
         username,
-        password: 'hashedpassword',
+        password,
         _id: new mongoose.Types.ObjectId(),
       };
       const accessToken = 'testaccesstoken';
@@ -114,7 +114,6 @@ describe('AuthService', () => {
 
     it('should throw UnauthorizedException if user exists but password is incorrect', async () => {
       const username = 'testuser';
-      const password = 'testpassword';
       const user = {
         username,
         password: 'hashedpassword',
