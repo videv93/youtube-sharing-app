@@ -147,7 +147,7 @@ function Layout() {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={snackBarOpen}
         onClose={handleClose}
-        message={`New post added: ${recentPost?.title}. Check it out!`}
+        message={`New post added: ${recentPost?.title} from ${recentPost?.user.username}. Check it out!`}
         key={Math.random()}
       />
       {/* Routes will be rendered here */}
