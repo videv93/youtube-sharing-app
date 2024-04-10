@@ -26,8 +26,18 @@ describe('PostsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PostsController],
-      providers: [PostsService],
-    }).compile();
+    })
+      .useMocker((token) => {
+        if (token === PostsService) {
+          return {
+            findAll: jest.fn(),
+            upvote: jest.fn(),
+            downvote: jest.fn(),
+            createFromUrl: jest.fn(),
+          };
+        }
+      })
+      .compile();
 
     controller = module.get<PostsController>(PostsController);
     postsService = module.get<PostsService>(PostsService);
