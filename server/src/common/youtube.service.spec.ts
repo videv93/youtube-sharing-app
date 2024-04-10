@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { YoutubeService } from './youtube.service';
-import { ConfigService } from './config.service';
-import { HttpService } from './http.service';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 
 describe('YoutubeService', () => {
   let service: YoutubeService;
