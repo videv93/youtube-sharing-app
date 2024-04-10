@@ -3,8 +3,8 @@ import { PostsService } from './posts.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Post, PostSchema } from './post.schema';
 import { PostsController } from './posts.controller';
-import { EventsModule } from 'src/events/events.module';
-import { CommonModule } from 'src/common/common.module';
+import { EventsModule } from '../events/events.module';
+import { CommonModule } from '../common/common.module';
 
 @Module({
   imports: [
