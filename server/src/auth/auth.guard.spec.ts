@@ -58,6 +58,6 @@ describe('AuthGuard', () => {
       })),
     };
     jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(isPublic);
-    return context as ExecutionContext;
+    return context as unknown as ExecutionContext;
   }
 });

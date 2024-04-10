@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import mongoose from 'mongoose';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -36,7 +37,12 @@ describe('AuthController', () => {
   describe('signUp', () => {
     it('should call authService.signUp and return the result', async () => {
       const signUpDto = { username: 'test', password: 'password' };
-      const expectedResult = 'user';
+      const expectedResult = {
+        _id: new mongoose.Types.ObjectId(),
+        username: 'test',
+        password: 'password',
+        access_token: 'token',
+      };
 
       jest.spyOn(authService, 'signUp').mockResolvedValue(expectedResult);
 
