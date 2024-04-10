@@ -51,8 +51,12 @@ describe('UsersService', () => {
     it('should find a user by username', async () => {
       const username = 'testuser';
       const foundUser = { _id: '1', username, password: 'testpassword' };
+      const foundUserDocument = {
+        toObject: jest.fn().mockReturnValue(foundUser),
+        ...foundUser,
+      };
 
-      jest.spyOn(userModel, 'findOne').mockResolvedValueOnce(foundUser);
+      jest.spyOn(userModel, 'findOne').mockResolvedValueOnce(foundUserDocument);
 
       const result = await usersService.findOne(username);
 
@@ -62,8 +66,11 @@ describe('UsersService', () => {
 
     it('should return undefined if user is not found', async () => {
       const username = 'nonexistentuser';
+      const notFoundUser = {
+        toObject: jest.fn().mockReturnValue(undefined),
+      };
 
-      jest.spyOn(userModel, 'findOne').mockResolvedValueOnce(null);
+      jest.spyOn(userModel, 'findOne').mockResolvedValueOnce(notFoundUser);
 
       const result = await usersService.findOne(username);
 
