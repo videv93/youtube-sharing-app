@@ -16,12 +16,12 @@ describe('RedisService', () => {
           provide: CACHE_MANAGER,
           useValue: {
             store: {
-              getClient: jest.fn(() => ({
+              getClient: jest.fn().mockReturnValue({
                 sAdd: jest.fn(),
                 sRem: jest.fn(),
                 sIsMember: jest.fn(),
                 sCard: jest.fn(),
-              })),
+              }),
             },
           },
         },
