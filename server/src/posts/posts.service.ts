@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post } from './post.schema';
 import { UserCache } from '../auth/auth.interface';
-import { EventsGateway } from 'src/events/events.gateway';
-import { YoutubeService } from 'src/common/youtube.service';
-import { RedisService } from 'src/common/redis.service';
+import { EventsGateway } from '../events/events.gateway';
+import { YoutubeService } from '../common/youtube.service';
+import { RedisService } from '../common/redis.service';
 
 @Injectable()
 export class PostsService {
@@ -17,11 +17,9 @@ export class PostsService {
   ) {}
 
   async findAll(user?: UserCache) {
-    const posts = await this.postModel
-      .find({}, null, {
-        populate: [{ path: 'user', select: 'username' }],
-      })
-      .lean();
+    const posts = await this.postModel.find({}, null, {
+      populate: [{ path: 'user', select: 'username' }],
+    });
     if (user) {
       for (const post of posts) {
         const isMember = await this.redisService.isMember(
@@ -31,7 +29,7 @@ export class PostsService {
         post.voted = isMember;
       }
     }
-    return posts;
+    return posts.map((post) => post.toObject());
   }
 
   async create(user: UserCache, payload: any) {
