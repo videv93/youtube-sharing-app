@@ -7,7 +7,7 @@ import { Stack, Box, Typography, Button } from "@mui/material";
 import { useRevalidator, useLoaderData } from "react-router-dom";
 import YouTube, { YouTubeProps } from "react-youtube";
 
-function PostList() {
+export function PostList() {
   const { posts } = useLoaderData() as { posts: Post[] };
   const revalidator = useRevalidator();
 
