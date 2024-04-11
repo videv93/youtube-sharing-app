@@ -1,12 +1,12 @@
-import { fakeAuthProvider } from "@/auth";
-import { createPost } from "@/posts";
+import { fakeAuthProvider } from "@/api/auth";
+import { createPost } from "@/api/posts";
 import { Button, Container, FormLabel, Stack, TextField } from "@mui/material";
 import { Form, LoaderFunctionArgs, redirect } from "react-router-dom";
 
-export default function NewPost() {
+export function NewPost() {
   return (
     <Container maxWidth="md">
-      <Form method="post" action="/new">
+      <Form method="post" action="/posts/new">
         <Stack spacing={2}>
           <FormLabel component="legend">Youtube URL:</FormLabel>
           <TextField type="text" name="url" />
@@ -19,7 +19,7 @@ export default function NewPost() {
   );
 }
 
-export function loader({ request }: LoaderFunctionArgs) {
+function loader({ request }: LoaderFunctionArgs) {
   if (!fakeAuthProvider.isAuthenticated) {
     const params = new URLSearchParams();
     params.set("from", new URL(request.url).pathname);
@@ -28,7 +28,7 @@ export function loader({ request }: LoaderFunctionArgs) {
   return null;
 }
 
-export async function action({ request }: LoaderFunctionArgs) {
+async function action({ request }: LoaderFunctionArgs) {
   const formData = await request.formData();
   const url = formData.get("url") as string;
   if (!url) {
@@ -40,3 +40,9 @@ export async function action({ request }: LoaderFunctionArgs) {
   await createPost(url);
   return redirect("/");
 }
+
+export const newPostRoute = {
+  loader,
+  action,
+  element: <NewPost />,
+};

@@ -1,7 +1,6 @@
 import { fakeAuthProvider } from "./auth";
 
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log(import.meta.env);
 
 export async function getPosts() {
   const response = await fetch(apiUrl + "/posts", {

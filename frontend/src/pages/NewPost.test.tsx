@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import NewPost from "./new";
+import { NewPost } from "./NewPost";
 
 describe("NewPost", () => {
   test("renders the form with input field and submit button", () => {
