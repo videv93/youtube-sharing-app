@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AuthStatus } from "./AuthStatus";
 import { useRouteLoaderData, useFetcher, useNavigate } from "react-router-dom";
+import "@testing-library/jest-dom";
 
 jest.mock("react-router-dom", () => ({
   useRouteLoaderData: jest.fn(),
