@@ -1,9 +1,10 @@
 import { getPosts, createPost, upVotePost, downVotePost } from "./posts";
 import { fakeAuthProvider } from "./auth";
+import { vi } from "vitest";
 
 describe("getPosts", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should fetch posts successfully", async () => {
@@ -14,9 +15,9 @@ describe("getPosts", () => {
     const mockAccessToken = "testAccessToken";
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
-      json: jest.fn().mockResolvedValueOnce(mockPosts),
+      json: vi.fn().mockResolvedValueOnce(mockPosts),
     });
 
     // Set the fakeAuthProvider accessToken
@@ -41,7 +42,7 @@ describe("getPosts", () => {
     const mockAccessToken = "testAccessToken";
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: false,
     });
 
@@ -54,7 +55,7 @@ describe("getPosts", () => {
 
 describe("createPost", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should create a post successfully", async () => {
@@ -63,9 +64,9 @@ describe("createPost", () => {
     const mockResponse = { id: 1, url: mockUrl };
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
-      json: jest.fn().mockResolvedValueOnce(mockResponse),
+      json: vi.fn().mockResolvedValueOnce(mockResponse),
     });
 
     // Set the fakeAuthProvider accessToken
@@ -92,7 +93,7 @@ describe("createPost", () => {
     const mockAccessToken = "testAccessToken";
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: false,
     });
 
@@ -107,7 +108,7 @@ describe("createPost", () => {
 
 describe("upVotePost", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should upvote a post successfully", async () => {
@@ -116,9 +117,9 @@ describe("upVotePost", () => {
     const mockResponse = { id: mockId, upvotes: 1 };
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
-      json: jest.fn().mockResolvedValueOnce(mockResponse),
+      json: vi.fn().mockResolvedValueOnce(mockResponse),
     });
 
     // Set the fakeAuthProvider accessToken
@@ -144,7 +145,7 @@ describe("upVotePost", () => {
     const mockAccessToken = "testAccessToken";
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: false,
     });
 
@@ -158,7 +159,7 @@ describe("upVotePost", () => {
 });
 describe("downVotePost", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("should downvote a post successfully", async () => {
@@ -167,9 +168,9 @@ describe("downVotePost", () => {
     const mockResponse = { id: mockId, downvotes: 1 };
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
-      json: jest.fn().mockResolvedValueOnce(mockResponse),
+      json: vi.fn().mockResolvedValueOnce(mockResponse),
     });
 
     // Set the fakeAuthProvider accessToken
@@ -195,7 +196,7 @@ describe("downVotePost", () => {
     const mockAccessToken = "testAccessToken";
 
     // Mock the fetch function
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: false,
     });
 

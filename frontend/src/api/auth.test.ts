@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { fakeAuthProvider } from "./auth";
 
 describe("fakeAuthProvider", () => {
@@ -18,9 +19,9 @@ describe("fakeAuthProvider", () => {
       const accessToken = "testaccesstoken";
 
       // Mock the fetch function
-      global.fetch = jest.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValueOnce({
         ok: true,
-        json: jest.fn().mockResolvedValueOnce({ access_token: accessToken }),
+        json: vi.fn().mockResolvedValueOnce({ access_token: accessToken }),
       });
 
       await fakeAuthProvider.signin(username, password);
@@ -38,7 +39,7 @@ describe("fakeAuthProvider", () => {
       const password = "testpassword";
 
       // Mock the fetch function
-      global.fetch = jest.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValueOnce({
         ok: false,
       });
 
