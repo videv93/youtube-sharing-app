@@ -47,10 +47,10 @@ describe('AuthGuard', () => {
 
   function createMockContext(isPublic: boolean): ExecutionContext {
     const context = {
-      getHandler: vi.fn(),
-      getClass: vi.fn(),
-      switchToHttp: vi.fn().mockReturnValue({
-        getRequest: vi.fn().mockReturnValue({
+      getHandler: jest.fn(),
+      getClass: jest.fn(),
+      switchToHttp: jest.fn().mockReturnValue({
+        getRequest: jest.fn().mockReturnValue({
           headers: {
             authorization: isPublic ? undefined : 'Bearer token',
           },
