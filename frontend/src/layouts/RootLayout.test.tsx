@@ -15,7 +15,9 @@ vi.mock("socket.io-client", () => ({
 
 describe("RootLayout", () => {
   beforeEach(() => {
+    // @ts-expect-error('')
     vi.mocked(useNavigate).mockReturnValue(vi.fn());
+    // @ts-expect-error('')
     vi.mocked(io).mockReturnValue({
       on: vi.fn(),
       close: vi.fn(),
@@ -45,9 +47,9 @@ describe("RootLayout", () => {
   test("displays a snackbar when a new post is received", () => {
     render(<RootLayout />);
     const mockPost = { title: "Test Post", user: { username: "JohnDoe" } };
-    const socketMock = vi.mocked(io).results[0].value;
+    const socketMock = vi.mocked(io);
     const snackbarMessage = `New post added: ${mockPost.title} from ${mockPost.user.username}. Check it out!`;
-
+    // @ts-expect-error('')
     fireEvent(socketMock, new Event("new-post"));
 
     expect(screen.getByText(snackbarMessage)).toBeInTheDocument();

@@ -16,7 +16,7 @@ vi.mock("../api/posts", () => ({
 
 describe("PostList", () => {
   beforeEach(() => {
-    useLoaderData.mockReturnValue({
+    vi.mocked(useLoaderData).mockReturnValue({
       posts: [
         {
           _id: "1",
@@ -40,7 +40,8 @@ describe("PostList", () => {
         },
       ],
     });
-    useRevalidator.mockReturnValue({ revalidate: vi.fn() });
+    // @ts-expect-error('')
+    vi.mocked(useRevalidator).mockReturnValue({ revalidate: vi.fn() });
   });
 
   test("renders the list of posts", () => {

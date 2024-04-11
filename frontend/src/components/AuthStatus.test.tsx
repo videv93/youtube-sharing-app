@@ -13,11 +13,12 @@ describe("AuthStatus", () => {
   beforeEach(() => {
     vi.mocked(useRouteLoaderData).mockReturnValue({ user: "JohnDoe" });
     vi.mocked(useFetcher).mockReturnValue({
-      formData: null,
+      // @ts-expect-error('')
       Form: ({ children }: { children: React.ReactNode }) => (
         <form>{children}</form>
       ),
     });
+    // @ts-expect-error('')
     vi.mocked(useNavigate).mockReturnValue(vi.fn());
   });
 

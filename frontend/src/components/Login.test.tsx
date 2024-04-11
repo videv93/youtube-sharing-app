@@ -11,9 +11,11 @@ vi.mock("react-router-dom", () => ({
 
 describe("Login", () => {
   beforeEach(() => {
+    // @ts-expect-error('')
     vi.mocked(useLocation).mockReturnValue({
       search: "?from=/",
     });
+    // @ts-expect-error('')
     vi.mocked(useNavigation).mockReturnValue({
       formData: new FormData(),
     });
@@ -32,7 +34,8 @@ describe("Login", () => {
   test("disables the submit button when logging in", () => {
     const formData = new FormData();
     formData.append("username", "john");
-    useNavigation.mockReturnValue({
+    // @ts-expect-error('')
+    vi.mocked(useNavigation).mockReturnValue({
       formData: formData,
     });
     render(<Login />);
@@ -42,7 +45,7 @@ describe("Login", () => {
   });
 
   test("displays an error message if actionData has an error", () => {
-    useActionData.mockReturnValue({
+    vi.mocked(useActionData).mockReturnValue({
       error: "Invalid credentials",
     });
     render(<Login />);
@@ -51,7 +54,8 @@ describe("Login", () => {
 
   test("submits the form with the correct values", () => {
     const mockFormData = new FormData();
-    useNavigation.mockReturnValue({
+    // @ts-expect-error('')
+    vi.mocked(useNavigation).mockReturnValue({
       formData: mockFormData,
     });
     render(<Login />);
