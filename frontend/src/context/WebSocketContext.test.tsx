@@ -18,6 +18,8 @@ describe("WebSocketProvider", () => {
       on: jest.fn(),
       close: jest.fn(),
     };
+    const apiUrl = "http://example.com"; // Declare and assign the 'apiUrl' variable
+
     mockIo.mockReturnValue(mockSocket);
     jest.mock("socket.io-client", () => mockIo);
 

@@ -29,8 +29,10 @@ describe("Login", () => {
   });
 
   test("disables the submit button when logging in", () => {
+    const formData = new FormData();
+    formData.append("username", "john");
     (useNavigation as jest.Mock).mockReturnValue({
-      formData: new FormData([["username", "john"]]),
+      formData: formData,
     });
     render(<Login />);
     expect(

@@ -47,7 +47,7 @@ describe("RootLayout", () => {
     const socketMock = (io as jest.Mock).mock.results[0].value;
     const snackbarMessage = `New post added: ${mockPost.title} from ${mockPost.user.username}. Check it out!`;
 
-    fireEvent(socketMock, "newPost", JSON.stringify(mockPost));
+    fireEvent(socketMock, new Event("new-post"));
 
     expect(screen.getByText(snackbarMessage)).toBeInTheDocument();
   });
