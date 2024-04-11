@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AuthStatus } from "./AuthStatus";
 import { useRouteLoaderData, useFetcher, useNavigate } from "react-router-dom";
-import "@testing-library/vi-dom";
 import { vi } from "vitest";
 
 vi.mock("react-router-dom", () => ({
