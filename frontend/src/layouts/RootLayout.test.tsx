@@ -2,22 +2,23 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { RootLayout } from "./RootLayout";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import { vi } from "vitest";
 
-jest.mock("react-router-dom", () => ({
-  useNavigate: jest.fn(),
+vi.mock("react-router-dom", () => ({
+  useNavigate: vi.fn(),
 }));
 
-jest.mock("socket.io-client", () => ({
+vi.mock("socket.io-client", () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: vi.fn(),
 }));
 
 describe("RootLayout", () => {
   beforeEach(() => {
-    (useNavigate as jest.Mock).mockReturnValue(jest.fn());
-    (io as jest.Mock).mockReturnValue({
-      on: jest.fn(),
-      close: jest.fn(),
+    vi.mocked(useNavigate).mockReturnValue(vi.fn());
+    vi.mocked(io).mockReturnValue({
+      on: vi.fn(),
+      close: vi.fn(),
     });
   });
 
@@ -44,7 +45,7 @@ describe("RootLayout", () => {
   test("displays a snackbar when a new post is received", () => {
     render(<RootLayout />);
     const mockPost = { title: "Test Post", user: { username: "JohnDoe" } };
-    const socketMock = (io as jest.Mock).mock.results[0].value;
+    const socketMock = vi.mocked(io).results[0].value;
     const snackbarMessage = `New post added: ${mockPost.title} from ${mockPost.user.username}. Check it out!`;
 
     fireEvent(socketMock, new Event("new-post"));

@@ -2,20 +2,21 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { PostList } from "./PostList";
 import { useLoaderData, useRevalidator } from "react-router-dom";
 import { upVotePost, downVotePost } from "../api/posts";
+import { vi } from "vitest";
 
-jest.mock("react-router-dom", () => ({
-  useLoaderData: jest.fn(),
-  useRevalidator: jest.fn(),
+vi.mock("react-router-dom", () => ({
+  useLoaderData: vi.fn(),
+  useRevalidator: vi.fn(),
 }));
 
-jest.mock("../api/posts", () => ({
-  upVotePost: jest.fn(),
-  downVotePost: jest.fn(),
+vi.mock("../api/posts", () => ({
+  upVotePost: vi.fn(),
+  downVotePost: vi.fn(),
 }));
 
 describe("PostList", () => {
   beforeEach(() => {
-    (useLoaderData as jest.Mock).mockReturnValue({
+    useLoaderData.mockReturnValue({
       posts: [
         {
           _id: "1",
@@ -39,7 +40,7 @@ describe("PostList", () => {
         },
       ],
     });
-    (useRevalidator as jest.Mock).mockReturnValue({ revalidate: jest.fn() });
+    useRevalidator.mockReturnValue({ revalidate: vi.fn() });
   });
 
   test("renders the list of posts", () => {

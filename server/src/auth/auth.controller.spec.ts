@@ -14,8 +14,8 @@ describe('AuthController', () => {
       .useMocker((token) => {
         if (token == AuthService) {
           return {
-            signIn: jest.fn(),
-            signUp: jest.fn(),
+            signIn: vi.fn(),
+            signUp: vi.fn(),
           };
         }
       })

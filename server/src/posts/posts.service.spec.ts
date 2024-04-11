@@ -33,31 +33,31 @@ describe('PostsService', () => {
           provide: EventsGateway,
           useValue: {
             server: {
-              emit: jest.fn(),
+              emit: vi.fn(),
             },
           },
         },
         {
           provide: RedisService,
           useValue: {
-            isMember: jest.fn(),
-            addToSet: jest.fn(),
-            countMembers: jest.fn(),
+            isMember: vi.fn(),
+            addToSet: vi.fn(),
+            countMembers: vi.fn(),
           },
         },
         {
           provide: YoutubeService,
           useValue: {
-            getVideoInfo: jest.fn(),
+            getVideoInfo: vi.fn(),
           },
         },
         {
           provide: getModelToken(Post.name),
           useValue: {
-            create: jest.fn(),
-            findById: jest.fn(),
-            find: jest.fn(),
-            populate: jest.fn(),
+            create: vi.fn(),
+            findById: vi.fn(),
+            find: vi.fn(),
+            populate: vi.fn(),
           },
         },
       ],
@@ -96,9 +96,9 @@ describe('PostsService', () => {
 
     fakePostDocument = {
       ...fakePost,
-      populate: jest.fn().mockResolvedValue(fakePost),
-      toObject: jest.fn().mockReturnValue(fakePost),
-      save: jest.fn(),
+      populate: vi.fn().mockResolvedValue(fakePost),
+      toObject: vi.fn().mockReturnValue(fakePost),
+      save: vi.fn(),
     };
   });
 
@@ -275,8 +275,8 @@ describe('PostsService', () => {
         user,
         voted: false,
         ...videoInfo,
-        populate: jest.fn().mockResolvedValue(videoInfo),
-        toObject: jest.fn().mockReturnValue(videoInfo),
+        populate: vi.fn().mockResolvedValue(videoInfo),
+        toObject: vi.fn().mockReturnValue(videoInfo),
       };
       const getVideoInfoMock = jest
         .spyOn(youtubeService, 'getVideoInfo')

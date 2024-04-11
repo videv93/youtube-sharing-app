@@ -1,24 +1,25 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AuthStatus } from "./AuthStatus";
 import { useRouteLoaderData, useFetcher, useNavigate } from "react-router-dom";
-import "@testing-library/jest-dom";
+import "@testing-library/vi-dom";
+import { vi } from "vitest";
 
-jest.mock("react-router-dom", () => ({
-  useRouteLoaderData: jest.fn(),
-  useFetcher: jest.fn(),
-  useNavigate: jest.fn(),
+vi.mock("react-router-dom", () => ({
+  useRouteLoaderData: vi.fn(),
+  useFetcher: vi.fn(),
+  useNavigate: vi.fn(),
 }));
 
 describe("AuthStatus", () => {
   beforeEach(() => {
-    (useRouteLoaderData as jest.Mock).mockReturnValue({ user: "JohnDoe" });
-    (useFetcher as jest.Mock).mockReturnValue({
+    vi.mocked(useRouteLoaderData).mockReturnValue({ user: "JohnDoe" });
+    vi.mocked(useFetcher).mockReturnValue({
       formData: null,
       Form: ({ children }: { children: React.ReactNode }) => (
         <form>{children}</form>
       ),
     });
-    (useNavigate as jest.Mock).mockReturnValue(jest.fn());
+    vi.mocked(useNavigate).mockReturnValue(vi.fn());
   });
 
   test("renders the welcome message and buttons", () => {

@@ -1,22 +1,23 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Login } from "./Login";
 import { useLocation, useNavigation, useActionData } from "react-router-dom";
+import { vi } from "vitest";
 
-jest.mock("react-router-dom", () => ({
-  useLocation: jest.fn(),
-  useNavigation: jest.fn(),
-  useActionData: jest.fn(),
+vi.mock("react-router-dom", () => ({
+  useLocation: vi.fn(),
+  useNavigation: vi.fn(),
+  useActionData: vi.fn(),
 }));
 
 describe("Login", () => {
   beforeEach(() => {
-    (useLocation as jest.Mock).mockReturnValue({
+    vi.mocked(useLocation).mockReturnValue({
       search: "?from=/",
     });
-    (useNavigation as jest.Mock).mockReturnValue({
+    vi.mocked(useNavigation).mockReturnValue({
       formData: new FormData(),
     });
-    (useActionData as jest.Mock).mockReturnValue(undefined);
+    vi.mocked(useActionData).mockReturnValue(undefined);
   });
 
   test("renders the login form", () => {
@@ -31,7 +32,7 @@ describe("Login", () => {
   test("disables the submit button when logging in", () => {
     const formData = new FormData();
     formData.append("username", "john");
-    (useNavigation as jest.Mock).mockReturnValue({
+    useNavigation.mockReturnValue({
       formData: formData,
     });
     render(<Login />);
@@ -41,7 +42,7 @@ describe("Login", () => {
   });
 
   test("displays an error message if actionData has an error", () => {
-    (useActionData as jest.Mock).mockReturnValue({
+    useActionData.mockReturnValue({
       error: "Invalid credentials",
     });
     render(<Login />);
@@ -50,7 +51,7 @@ describe("Login", () => {
 
   test("submits the form with the correct values", () => {
     const mockFormData = new FormData();
-    (useNavigation as jest.Mock).mockReturnValue({
+    useNavigation.mockReturnValue({
       formData: mockFormData,
     });
     render(<Login />);

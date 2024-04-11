@@ -15,14 +15,14 @@ describe('AuthService', () => {
         {
           provide: UsersService,
           useValue: {
-            findnOne: jest.fn(),
-            create: jest.fn(),
+            findnOne: vi.fn(),
+            create: vi.fn(),
           },
         },
         {
           provide: JwtService,
           useValue: {
-            sign: jest.fn(),
+            sign: vi.fn(),
           },
         },
       ],
@@ -48,14 +48,14 @@ describe('AuthService', () => {
         {
           provide: UsersService,
           useValue: {
-            findOne: jest.fn(),
-            create: jest.fn(),
+            findOne: vi.fn(),
+            create: vi.fn(),
           },
         },
         {
           provide: JwtService,
           useValue: {
-            sign: jest.fn(),
+            sign: vi.fn(),
           },
         },
       ],

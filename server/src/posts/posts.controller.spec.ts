@@ -30,10 +30,10 @@ describe('PostsController', () => {
       .useMocker((token) => {
         if (token === PostsService) {
           return {
-            findAll: jest.fn(),
-            upvote: jest.fn(),
-            downvote: jest.fn(),
-            createFromUrl: jest.fn(),
+            findAll: vi.fn(),
+            upvote: vi.fn(),
+            downvote: vi.fn(),
+            createFromUrl: vi.fn(),
           };
         }
       })

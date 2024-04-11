@@ -15,14 +15,14 @@ describe('YoutubeService', () => {
         {
           provide: ConfigService,
           useValue: {
-            get: jest.fn().mockReturnValue('YOUR_YOUTUBE_API_KEY'),
+            get: vi.fn().mockReturnValue('YOUR_YOUTUBE_API_KEY'),
           },
         },
         {
           provide: HttpService,
           useValue: {
             axiosRef: {
-              get: jest.fn().mockResolvedValue({
+              get: vi.fn().mockResolvedValue({
                 data: {
                   items: [
                     {

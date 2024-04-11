@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import { WebSocketProvider } from "./WebSocketContext";
+import { vi } from "vitest";
 
 describe("WebSocketProvider", () => {
   test("renders children without throwing an error", () => {
@@ -13,15 +14,15 @@ describe("WebSocketProvider", () => {
 
   test("creates a WebSocket connection on mount", () => {
     // Mock the socket.io library
-    const mockIo = jest.fn();
+    const mockIo = vi.fn();
     const mockSocket = {
-      on: jest.fn(),
-      close: jest.fn(),
+      on: vi.fn(),
+      close: vi.fn(),
     };
     const apiUrl = "http://example.com"; // Declare and assign the 'apiUrl' variable
 
     mockIo.mockReturnValue(mockSocket);
-    jest.mock("socket.io-client", () => mockIo);
+    vi.mock("socket.io-client", () => mockIo);
 
     render(
       <WebSocketProvider>
@@ -35,13 +36,13 @@ describe("WebSocketProvider", () => {
   });
 
   test("closes the WebSocket connection on unmount", () => {
-    const mockClose = jest.fn();
+    const mockClose = vi.fn();
     const mockSocket = {
-      on: jest.fn(),
+      on: vi.fn(),
       close: mockClose,
     };
-    const mockIo = jest.fn().mockReturnValue(mockSocket);
-    jest.mock("socket.io-client", () => mockIo);
+    const mockIo = vi.fn().mockReturnValue(mockSocket);
+    vi.mock("socket.io-client", () => mockIo);
 
     const { unmount } = render(
       <WebSocketProvider>

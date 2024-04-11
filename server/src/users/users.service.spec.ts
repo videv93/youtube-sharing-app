@@ -15,8 +15,8 @@ describe('UsersService', () => {
         {
           provide: getModelToken(User.name),
           useValue: {
-            create: jest.fn(),
-            findOne: jest.fn(),
+            create: vi.fn(),
+            findOne: vi.fn(),
           },
         },
       ],
@@ -31,7 +31,7 @@ describe('UsersService', () => {
       const payload = { username: 'testuser', password: 'testpassword' };
       const createdUser = { _id: new mongoose.Types.ObjectId(), ...payload };
       const createdUserDocument = {
-        toObject: jest.fn().mockReturnValue(createdUser),
+        toObject: vi.fn().mockReturnValue(createdUser),
         ...createdUser,
       };
 
@@ -52,7 +52,7 @@ describe('UsersService', () => {
       const username = 'testuser';
       const foundUser = { _id: '1', username, password: 'testpassword' };
       const foundUserDocument = {
-        toObject: jest.fn().mockReturnValue(foundUser),
+        toObject: vi.fn().mockReturnValue(foundUser),
         ...foundUser,
       };
 
@@ -67,7 +67,7 @@ describe('UsersService', () => {
     it('should return undefined if user is not found', async () => {
       const username = 'nonexistentuser';
       const notFoundUser = {
-        toObject: jest.fn().mockReturnValue(undefined),
+        toObject: vi.fn().mockReturnValue(undefined),
       };
 
       jest.spyOn(userModel, 'findOne').mockResolvedValueOnce(notFoundUser);
