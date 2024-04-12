@@ -14,14 +14,13 @@ describe("WebSocketProvider", () => {
 
   test("creates a WebSocket connection on mount", () => {
     // Mock the socket.io library
-    const mockIo = vi.fn();
+    const apiUrl = "http://example.com"; // Declare and assign the 'apiUrl' variable
+
     const mockSocket = {
       on: vi.fn(),
       close: vi.fn(),
     };
-    const apiUrl = "http://example.com"; // Declare and assign the 'apiUrl' variable
-
-    mockIo.mockReturnValue(mockSocket);
+    const mockIo = vi.fn().mockReturnValue(mockSocket);
     vi.mock("socket.io-client", () => mockIo);
 
     render(
