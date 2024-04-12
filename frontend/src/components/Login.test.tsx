@@ -3,7 +3,8 @@ import { Login } from "./Login";
 import { useLocation, useNavigation, useActionData } from "react-router-dom";
 import { vi } from "vitest";
 
-vi.mock("react-router-dom", () => ({
+vi.mock("react-router-dom", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("react-router-dom")>()),
   useLocation: vi.fn(),
   useNavigation: vi.fn(),
   useActionData: vi.fn(),

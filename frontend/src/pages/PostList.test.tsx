@@ -61,27 +61,30 @@ describe("PostList", () => {
     expect(screen.getByText("Shared by: JohnDoe")).toBeInTheDocument();
     expect(screen.getByText("5")).toBeInTheDocument();
     expect(screen.getByText("2")).toBeInTheDocument();
-    expect(screen.getByText("Description:")).toBeInTheDocument();
-    expect(screen.getByText("Post 1 description")).toBeInTheDocument();
+    expect(screen.getAllByText("Description:")[0]).toBeInTheDocument();
+    expect(screen.getByText("Post 1 description...")).toBeInTheDocument();
   });
 
   test("disables upvote button if user is not authenticated or has already voted", () => {
     render(<PostList />);
-    const upvoteButton = screen.getByRole("button", { name: "Upvote" });
+    const upvoteButtons = screen.getAllByRole("button", { name: "Upvote" });
+    const upvoteButton = upvoteButtons[0];
 
     expect(upvoteButton).toBeDisabled();
   });
 
   test("disables downvote button if user is not authenticated or has already voted", () => {
     render(<PostList />);
-    const downvoteButton = screen.getByRole("button", { name: "Downvote" });
+    const downvoteButtons = screen.getAllByRole("button", { name: "Downvote" });
+    const downvoteButton = downvoteButtons[0];
 
     expect(downvoteButton).toBeDisabled();
   });
 
   test("calls upVotePost and revalidates when upvote button is clicked", async () => {
     render(<PostList />);
-    const upvoteButton = screen.getByRole("button", { name: "Upvote" });
+    const upvoteButtons = screen.getAllByRole("button", { name: "Upvote" });
+    const upvoteButton = upvoteButtons[0];
 
     fireEvent.click(upvoteButton);
 
@@ -91,7 +94,8 @@ describe("PostList", () => {
 
   test("calls downVotePost and revalidates when downvote button is clicked", async () => {
     render(<PostList />);
-    const downvoteButton = screen.getByRole("button", { name: "Downvote" });
+    const downvoteButtons = screen.getAllByRole("button", { name: "Downvote" });
+    const downvoteButton = downvoteButtons[0];
 
     fireEvent.click(downvoteButton);
 

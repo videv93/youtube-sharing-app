@@ -128,11 +128,10 @@ describe("upVotePost", () => {
     const result = await upVotePost(mockId);
 
     expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringContaining(`/posts/${mockId}/upvote`),
+      `http://localhost:3000/posts/${mockId}/upvote`,
       {
         method: "post",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${mockAccessToken}`,
         },
       }
@@ -179,11 +178,10 @@ describe("downVotePost", () => {
     const result = await downVotePost(mockId);
 
     expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringContaining(`/posts/${mockId}/downvote`),
+      `http://localhost:3000/posts/${mockId}/downvote`,
       {
         method: "post",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${mockAccessToken}`,
         },
       }

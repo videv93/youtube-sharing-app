@@ -47,7 +47,13 @@ export function PostList() {
     <div>
       <ul>
         {posts.map((post) => (
-          <Stack key={post._id} direction="row" spacing={2} p={2}>
+          <Stack
+            key={post._id}
+            direction="row"
+            spacing={2}
+            p={2}
+            role="listitem"
+          >
             <Box>
               <YouTube
                 videoId={post.videoId}
@@ -62,6 +68,7 @@ export function PostList() {
                 <Button
                   disabled={!fakeAuthProvider.isAuthenticated || post.voted}
                   onClick={() => handleUpVoteClick(post)}
+                  aria-label="Upvote"
                 >
                   <Stack spacing={1} direction="row" alignItems="center">
                     <Typography variant="body2">{post.upvotes}</Typography>
@@ -71,6 +78,7 @@ export function PostList() {
                 <Button
                   disabled={!fakeAuthProvider.isAuthenticated || post.voted}
                   onClick={() => handleDownVoteClick(post)}
+                  aria-label="Downvote"
                 >
                   <Stack spacing={1} direction="row" alignItems="center">
                     <Typography variant="body2">{post.downvotes}</Typography>
