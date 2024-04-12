@@ -3,7 +3,7 @@
 # How to run the app
 
 - Clone the repository
-- cd server
+- Go to server folder by running command `cd server`
 - Create a .env file in the server directory with variables
 
 ```~~
@@ -17,7 +17,7 @@ REDIS_TTL=your_redis_ttl
 
 - Run `docker-compose up -d`
 
-- cd frontend
+- Go to frontend folder by running command `cd frontend`
 - Create a .env file in the frontend directory with variables
 
 ```
